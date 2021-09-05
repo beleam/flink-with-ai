@@ -48,15 +48,16 @@ RUN tar zxvf /opt/hbase-1.4.13-bin.tar.gz -C /opt
 RUN echo "export JAVA_HOME=/usr/local/openjdk-8" >> /opt/hbase-1.4.13/conf/hbase-env.sh
 RUN echo "\n<configuration>\n  <property>\n    <name>hbase.tmp.dir</name>\n    <value>tmp</value>  </property>\n</configuration>" > /opt/hbase-1.4.13/conf/hbase-site.xml
 
-RUN pip install jupyterlab jupyter-client
-
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt update && apt install curl git cmake ack g++ python3-dev vim-youcompleteme tmux -yq
-RUN apt-get install g++-8 -yq
+RUN apt update && apt install \
+curl git cmake ack g++ python3-dev vim-youcompleteme tmux \
+python3-psycopg2 default-mysql-client mariadb-client \
+g++-8 \
+-yq
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 800 --slave /usr/bin/g++ g++ /usr/bin/g++-8
 #RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/qooba/vim-python-ide/master/setup.sh)"
+RUN pip install jupyterlab jupyter-client \
+kafka-python sqlalchemy PyMySQL scikit-learn mlflow nbdev matplotlib
 
 WORKDIR /opt/flink
-RUN apt update && apt install python3-psycopg2 default-mysql-client mariadb-client -yq
-RUN pip install kafka-python sqlalchemy PyMySQL scikit-learn mlflow nbdev matplotlib
 CMD ["sh","-c", "jupyter lab --notebook-dir=/opt/flink/notebooks --ip='0.0.0.0' --port=8888 --no-browser --allow-root --NotebookApp.password='' --NotebookApp.token=''"]`
