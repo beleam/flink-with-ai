@@ -1,5 +1,6 @@
 # I have based on the Dockerfile from: https://github.com/pyflink/playgrounds/blob/master/image/Dockerfile
 FROM flink:1.12.2-scala_2.11
+ARG FLINK_VERSION=1.12.2
 
 # Install python
 RUN set -ex; \
@@ -12,25 +13,23 @@ RUN set -ex; \
 
 # Install pyflink
 RUN set -ex; \
-  apt-get update; \
   python -m pip install --upgrade pip; \
-  pip install apache-flink
+  pip install apache-flink==${FLINK_VERSION}
 
-ARG FLINK_VERSION=1.12.0
 
 # FLINK FORMATS
-RUN wget -P /opt/flink/lib/ https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-avro-confluent-registry/1.12.0/flink-sql-avro-confluent-registry-1.12.0.jar
-RUN wget -P /opt/flink/lib/ https://repo.maven.apache.org/maven2/org/apache/flink/flink-csv/1.12.2/flink-csv-1.12.2.jar
-RUN wget -P /opt/flink/lib/ https://repo.maven.apache.org/maven2/org/apache/flink/flink-json/1.12.2/flink-json-1.12.2.jar
-RUN wget -P /opt/flink/lib/ https://repo.maven.apache.org/maven2/org/apache/flink/flink-json/1.12.2/flink-json-1.12.2.jar
-RUN wget -P /opt/flink/lib/ https://repo.maven.apache.org/maven2/org/apache/flink/flink-parquet_2.12/1.12.2/flink-parquet_2.12-1.12.2.jar
+RUN wget -P /opt/flink/lib/ https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-avro-confluent-registry/${FLINK_VERSION}/flink-sql-avro-confluent-registry-${FLINK_VERSION}.jar
+RUN wget -P /opt/flink/lib/ https://repo.maven.apache.org/maven2/org/apache/flink/flink-csv/${FLINK_VERSION}/flink-csv-${FLINK_VERSION}.jar
+RUN wget -P /opt/flink/lib/ https://repo.maven.apache.org/maven2/org/apache/flink/flink-json/${FLINK_VERSION}/flink-json-${FLINK_VERSION}.jar
+RUN wget -P /opt/flink/lib/ https://repo.maven.apache.org/maven2/org/apache/flink/flink-json/${FLINK_VERSION}/flink-json-${FLINK_VERSION}.jar
+RUN wget -P /opt/flink/lib/ https://repo.maven.apache.org/maven2/org/apache/flink/flink-parquet_2.12/${FLINK_VERSION}/flink-parquet_2.12-${FLINK_VERSION}.jar
 
 # FLINK CONNECTORS
-RUN wget -P /opt/flink/lib/ https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-connector-kafka_2.11/1.12.0/flink-sql-connector-kafka_2.11-1.12.0.jar
-RUN wget -P /opt/flink/lib/ https://repo.maven.apache.org/maven2/org/apache/flink/flink-connector-jdbc_2.11/1.12.0/flink-connector-jdbc_2.11-1.12.0.jar
-RUN wget -P /opt/flink/lib/ https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-connector-hive-3.1.2_2.11/1.12.0/flink-sql-connector-hive-3.1.2_2.11-1.12.0.jar
-RUN wget -P /opt/flink/lib/ https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-connector-hbase-2.2_2.11/1.12.0/flink-sql-connector-hbase-2.2_2.11-1.12.0.jar
-RUN wget -P /opt/flink/lib/ https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-connector-elasticsearch6_2.11/1.12.0/flink-sql-connector-elasticsearch6_2.11-1.12.0.jar
+RUN wget -P /opt/flink/lib/ https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-connector-kafka_2.11/${FLINK_VERSION}/flink-sql-connector-kafka_2.11-${FLINK_VERSION}.jar
+RUN wget -P /opt/flink/lib/ https://repo.maven.apache.org/maven2/org/apache/flink/flink-connector-jdbc_2.11/${FLINK_VERSION}/flink-connector-jdbc_2.11-${FLINK_VERSION}.jar
+RUN wget -P /opt/flink/lib/ https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-connector-hive-3.1.2_2.11/${FLINK_VERSION}/flink-sql-connector-hive-3.1.2_2.11-${FLINK_VERSION}.jar
+RUN wget -P /opt/flink/lib/ https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-connector-hbase-2.2_2.11/${FLINK_VERSION}/flink-sql-connector-hbase-2.2_2.11-${FLINK_VERSION}.jar
+RUN wget -P /opt/flink/lib/ https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-connector-elasticsearch6_2.11/${FLINK_VERSION}/flink-sql-connector-elasticsearch6_2.11-${FLINK_VERSION}.jar
 
 # OTHER JARS
 RUN wget -P /opt/flink/lib/ https://repo1.maven.org/maven2/org/apache/hive/hive-exec/3.1.2/hive-exec-3.1.2.jar
@@ -41,7 +40,7 @@ RUN wget -P /opt/flink/lib https://jdbc.postgresql.org/download/postgresql-42.2.
 RUN mkdir -p /opt/data; \
     mkdir -p /opt/data/stream; \
     echo "taskmanager.memory.jvm-metaspace.size: 512m" >> /opt/flink/conf/flink-conf.yaml; \
-    echo "rest.port: 8088" >> /opt/flink/conf/flink-conf.yaml;
+    echo "rest.port: 8081" >> /opt/flink/conf/flink-conf.yaml;
 
 # Install hbase and run
 RUN wget -P /opt/ https://downloads.apache.org/hbase/1.4.13/hbase-1.4.13-bin.tar.gz;
