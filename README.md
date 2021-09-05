@@ -1,5 +1,5 @@
 # flink-with-ai
-
+Environment hosting jupyter, flink, kafka, postgres, mysql, elasticsearch, kibana
 
 ## References
 - https://qooba.net/2021/04/12/flink-with-ai-how-to-use-flink-with-mlflow-model-in-jupyter-notebook/
