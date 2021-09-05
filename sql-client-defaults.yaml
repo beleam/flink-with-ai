@@ -107,7 +107,7 @@ execution:
   # 'changelog', 'table' or 'tableau' presentation of results
   result-mode: tableau
   # maximum number of maintained rows in 'table' presentation of results
-  max-table-result-rows: 1000000
+  max-table-result-rows: 40
   # parallelism of the program
   # parallelism: 1
   # maximum parallelism
