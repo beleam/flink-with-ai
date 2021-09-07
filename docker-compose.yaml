@@ -12,6 +12,7 @@ services:
       JOB_MANAGER_RPC_ADDRESS: jobmanager
       ZOOKEEPER_CONNECT: zookeeper
       KAFKA_BOOTSTRAP: kafka
+      SUBMIT_ARGS: remote -m jobmanager:8081
     volumes:
       - ./data/mlflow:/mlflow
       - ./notebooks:/opt/flink/notebooks
